@@ -78,14 +78,17 @@
   .img-container {
     display: flex;
     position: absolute;
-    bottom: -40%;
+    bottom: -10%;
     left: 50%;
     transform: translateX(-50%);
-    gap: 5vw;
+    gap: 3vw;
     img {
       border-radius: 50%;
-      width: 6vw;
+      width: 5vw;
       border: 4px solid white;
+      @media (width>1080px) {
+        width: 4vw;
+      }
     }
     @media (width<650px) {
       display: none;
@@ -106,7 +109,7 @@
   .submit-btn {
     transform: translateY(-50%);
     position: absolute;
-    left: 80%;
+    right: 1rem;
     top: 50%;
     padding: 0.5rem;
     border: none;
