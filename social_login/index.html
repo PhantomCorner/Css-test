@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body class="container">
+    <div class="outside-box">
+      <div class="inside-box">
+        <h1 class="white">Already working together?</h1>
+        <p class="white">
+          Login to your account and connect with your teammates!
+        </p>
+        <form class="input-form">
+          <input
+            class="inputbox"
+            type="text"
+            placeholder="youremail@address.com"
+          />
+          <button class="submit-btn">Submit</button>
+        </form>
+        <div class="img-container">
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- Change code above this line -->
+</html>
+
+<style>
+  .container {
+    height: 600px;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .outside-box {
+    width: 100vh;
+    background-color: lightgrey;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .inside-box {
+    position: relative;
+    padding: 10px;
+    background-color: lightblue;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .white {
+    color: white;
+  }
+  .img-container {
+    display: flex;
+    position: absolute;
+    bottom: -35%;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 5vw;
+    img {
+      border-radius: 50%;
+      width: 10vw;
+      border: 4px solid white;
+    }
+    @media (width<650px) {
+      display: none;
+    }
+  }
+
+  .inputbox {
+    height: 8vh;
+    min-width: 50vw;
+    font-weight: 700;
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 100vw;
+    outline: none;
+  }
+  .submit-btn {
+    padding: 1rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 100vw;
+    cursor: pointer;
+  }
+</style>

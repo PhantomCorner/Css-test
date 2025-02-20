@@ -6,16 +6,74 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Testing Testing</h1>
+    <div class="cards">
+      <div class="card">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget
+        placerat lectus. Sed id sollicitudin mauris, eu aliquam turpis. Fusce
+        eget convallis ante. Pellentesque id enim vitae sapien tincidunt rutrum.
+      </div>
+      <div class="card">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget
+        placerat lectus. Sed id sollicitudin mauris, eu aliquam turpis. Fusce
+        eget convallis ante. Pellentesque id enim vitae sapien tincidunt rutrum.
+        Sed dictum pulvinar lorem, ut laoreet libero molestie ac. Donec
+        ullamcorper vehicula mi, id porttitor sem pretium sed. Donec ac felis
+        erat. In velit nisi, condimentum ac laoreet vel, congue ut justo. Duis
+        ultrices vestibulum eros quis vestibulum. Phasellus turpis tellus,
+        consectetur at aliquam porta, egestas vel nisl. Nulla nec laoreet
+        tortor.
+      </div>
+      <div class="card">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget
+        placerat lectus. Sed id sollicitudin mauris, eu aliquam turpis. Fusce
+        eget convallis ante. Pellentesque id enim vitae sapien tincidunt rutrum.
+      </div>
+      <div class="card">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget
+        placerat lectus. Sed id sollicitudin mauris, eu aliquam turpis. Fusce
+        eget convallis ante. Pellentesque id enim vitae sapien tincidunt rutrum.
+        Sed dictum pulvinar lorem, ut laoreet libero molestie ac. Donec ul erat.
+        In velit nisi, condimentum ac laoreet vel, congue ut justo. Duis
+        ultrices vestibulum eros quis vestibulum. Phasellus turpis tellus,
+        consectetur at aliquam porta, egestas vel nisl. Nulla nec laoreet
+        tortor.
+      </div>
+    </div>
   </body>
 </html>
 
-<style>
-  h1 {
-    font-size: 2rem;
+<style lang="scss">
+  .cards {
+    /* let browser set gird layout*/
+    /* display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    grid-auto-rows: 1fr; */
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    /* using media query to set */
+    /* display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    grid-auto-rows: 1fr;
+    
+    @media (width>=450px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (width>=960px) {
+      grid-template-columns: repeat(4, 1fr);
+    } */
   }
-  img {
-    max-width: 100%;
-    height: auto;
+  .card {
+    flex: 250px;
+    border: 2px solid black;
+    background-color: gray;
+    border-radius: 12px;
+    padding: 1rems;
+    p {
+      margin-block-end: 0;
+    }
   }
 </style>

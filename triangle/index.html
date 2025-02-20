@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="container">
+    <div class="triangle"></div>
+    <div class="top"></div>
+    <div class="bottom" onclick="console.log(123)"></div>
+    <div class="left"></div>
+    <div class="right"></div>
+  </body>
+</html>
+<style>
+  .container {
+    display: flex;
+    height: 300px;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    background-color: gray;
+  }
+  .triangle {
+    width: 0;
+    height: 0;
+    border: 100px solid;
+    border-color: orangered skyblue gold yellowgreen;
+  }
+  .top {
+    width: 0;
+    height: 0;
+    border-bottom: 50px solid skyblue;
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+  }
+  .bottom {
+    width: 0;
+    height: 0;
+    border-top: 50px solid skyblue;
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+  }
+
+  .left {
+    width: 0;
+    height: 0;
+    border-right: 50px solid skyblue;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+  }
+  .right {
+    width: 0;
+    height: 0;
+    border-left: 50px solid skyblue;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+  }
+</style>
