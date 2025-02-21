@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="container">
+    <div class="price-table">
+      <div class="price-type">
+        <h1 class="type">Free</h1>
+        <h2><span class="dollar-sign">$</span> <span class="price">0</span></h2>
+
+        <p class="description">Sed ut perspiciatis</p>
+        <p class="description-large">
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+        <button class="button">Get started</button>
+      </div>
+      <div class="price-type">
+        <h1 class="type">Free</h1>
+        <h2><span class="dollar-sign">$</span> <span class="price">0</span></h2>
+
+        <p class="description">Sed ut perspiciatis</p>
+        <p class="description-large">
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+        <button class="button">Get started</button>
+      </div>
+      <div class="price-type">
+        <h1 class="type">Free</h1>
+        <h2><span class="dollar-sign">$</span> <span class="price">0</span></h2>
+
+        <p class="description">Sed ut perspiciatis</p>
+        <p class="description-large">
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+        <button class="button">Get started</button>
+      </div>
+    </div>
+  </body>
+</html>
+<style>
+  .container {
+    background-color: #f1f1fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .price-table {
+    background-color: #faf6ff;
+    width: 100vw;
+    border-radius: 2vw;
+    padding: 2rem 1rem;
+    display: flex;
+    gap: 2rem;
+    @media (width<500px) {
+      flex-direction: column;
+    }
+  }
+  .price-type {
+    flex: 1;
+    background-color: aliceblue;
+    padding: 1rem;
+
+    @media (width<500px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+      * {
+        margin-block: 0;
+      }
+    }
+  }
+  .type {
+    font-weight: 600;
+    margin-block: 0;
+  }
+  .dollar-sign {
+    font-weight: 700;
+    font-size: 2rem;
+  }
+  .price {
+    font-weight: 700;
+    font-size: 4rem;
+  }
+  .description {
+    font-weight: 500;
+  }
+  .description-large {
+    font-weight: 800;
+  }
+  .button {
+    border-radius: 1vw;
+    padding: 1rem;
+    font-weight: 900;
+    font-size: 1rem;
+  }
+</style>
