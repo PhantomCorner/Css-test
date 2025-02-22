@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function moveFollowDiv() {
+        const followDiv = document.querySelector(".follow");
+        const descriptionDiv = document.querySelector(".user-info");
+        const statusDiv = document.querySelector(".status");
+
+        if (window.innerWidth < 600) {
+          descriptionDiv.appendChild(followDiv);
+        } else {
+          statusDiv.appendChild(followDiv);
+        }
+      }
+
+      window.addEventListener("resize", moveFollowDiv);
+      window.addEventListener("DOMContentLoaded", moveFollowDiv);
+    </script>
+  </head>
+  <body class="container">
+    <div class="card">
+      <div class="description">
+        <div class="user-info">
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+        </div>
+
+        <h1 class="bold">illo inventore</h1>
+        <p class="sbold">@illo inventore</p>
+        <p class="sbold">
+          et quasi architecto beatae vitae dicta suntet quasi architecto beatae
+          vitae dicta sunt
+        </p>
+        <div class="icon-container">
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+          <img
+            src="https://i.pravatar.cc/150?img=28"
+            alt="baby with headphones"
+          />
+        </div>
+      </div>
+      <div class="status">
+        <div class="progress-container">
+          <p class="uid">6/8 Org</p>
+          <div id="progressbar">
+            <div id="precentage"></div>
+          </div>
+        </div>
+
+        <div class="follow">
+          <p class="bold">4K <span class="sbold">Followers</span></p>
+          <button class="button">Follow</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<style>
+  * {
+    margin-block: 0;
+    img {
+      border-radius: 50%;
+      width: 10vw;
+    }
+  }
+  .container {
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  .card {
+    width: 700px;
+    height: 300px;
+    background-color: lightcyan;
+    display: flex;
+    @media (width<600px) {
+      flex-direction: column;
+    }
+  }
+  .description {
+    padding: 1rem;
+    background-color: aqua;
+    flex: 1;
+  }
+  .status {
+    background-color: aquamarine;
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .icon-container {
+    padding-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .bold {
+    font-weight: 800;
+  }
+  .sbold {
+    font-weight: 500;
+    font-size: small;
+  }
+
+  #progressbar {
+    background-color: black;
+    border-radius: 13px;
+    padding: 3px;
+  }
+
+  #progressbar > div {
+    background-color: orange;
+    width: 50%;
+    height: 10px;
+    border-radius: 10px;
+  }
+  .follow {
+    text-align: right;
+  }
+  .button {
+    margin-top: 1rem;
+  }
+  .user-info {
+    @media (width<600px) {
+      display: flex;
+      justify-content: space-between;
+      img {
+        min-width: 15vw;
+      }
+    }
+  }
+</style>
