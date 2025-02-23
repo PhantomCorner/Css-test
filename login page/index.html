@@ -14,7 +14,7 @@
         </p>
       </div>
       <div class="background-img">
-        <button>X</button>
+        <button>&times;</button>
         <img
           src="https://images.unsplash.com/photo-1549138144-42ff3cdd2bf8?q=80&w=1452&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="background-image"
@@ -43,6 +43,9 @@
     flex: 3;
   }
   .background-img {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     position: relative;
     border-radius: 10px;
     flex: 2;
@@ -56,7 +59,14 @@
       position: absolute;
       right: 10px;
       top: 10px;
-      border-radius: 100vw;
+      border-radius: 50%;
+      font-size: 20px;
+
+      opacity: 0.7;
+    }
+    @media (width<650px) {
+      opacity: 0;
+      visibility: hidden;
     }
   }
   .large {
