@@ -9,7 +9,7 @@
     <div class="login-container">
       <div class="login-form">
         <h1 class="large">Log In</h1>
-        <p class="small" style="width: 50vw">
+        <p class="small">
           et quasi architecto beatae et quasi architecto beatae
         </p>
         <input class="input" placeholder="Enter your email address" />
@@ -51,10 +51,11 @@
   }
   .login-container {
     border-radius: 10px;
-    width: max-content;
+
     background-color: azure;
     display: flex;
   }
+
   .login-form {
     padding: 1rem;
     flex: 3;
@@ -79,9 +80,6 @@
       border-radius: 50%;
       font-size: 20px;
       opacity: 0.7;
-    }
-    @media (width<650px) {
-      display: none;
     }
   }
   .large {
@@ -121,12 +119,25 @@
     padding: 10px;
   }
   .third-party-login {
-    margin-top: 5vh;
+    margin-top: 3em;
     border-top: 1px solid gray;
     div {
       display: flex;
       justify-content: center;
       gap: 10%;
+    }
+  }
+  @media (min-width: 1000px) {
+    .login-container {
+      max-width: 800px;
+    }
+    .login-form {
+      width: 100%;
+    }
+  }
+  @media (max-width: 650px) {
+    .background-img {
+      display: none;
     }
   }
 </style>
