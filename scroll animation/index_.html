@@ -7,31 +7,39 @@
   </head>
 
   <body>
-    <h1 style="height: 100vh">illo inventore</h1>
+    <div class="container">
+      <div class="title">
+        <h1>illo inventore</h1>
+        <img
+          class="img"
+          src="https://images.ctfassets.net/lzny33ho1g45/T5qqQQVznbZaNyxmHybDT/5f7580349045322d572a078262bee1b8/Best_URL_shortener.jpg"
+        />
+      </div>
 
-    <section class="hidden">
-      <h2>illo inventore</h2>
-      <p>
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
-        explicabo
-      </p>
-    </section>
+      <section class="hidden">
+        <h2>illo inventore</h2>
+        <p>
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+      </section>
 
-    <section class="hidden">
-      <h2>illo inventore</h2>
-      <p>
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
-        explicabo
-      </p>
-    </section>
+      <section class="hidden">
+        <h2>illo inventore</h2>
+        <p>
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+      </section>
 
-    <section class="hidden">
-      <h2>illo inventore</h2>
-      <p>
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
-        explicabo
-      </p>
-    </section>
+      <section class="hidden">
+        <h2>illo inventore</h2>
+        <p>
+          illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+          explicabo
+        </p>
+      </section>
+    </div>
   </body>
   <script>
     const obsever = new IntersectionObserver((entries) => {
@@ -55,16 +63,33 @@
     background-color: gray;
     padding: 0;
     margin: 0;
+    scroll-snap-type: y mandatory;
+    overflow: hidden;
   }
+  .container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+  }
+  .title {
+    h1 {
+      scroll-snap-align: start;
+    }
+    img {
+      width: 100%;
+    }
+  }
+
   section {
+    height: 100vh;
     display: grid;
     place-items: center;
     align-content: center;
-    min-height: 100vh;
+    scroll-snap-align: start;
   }
 
   .show {
-    animation: fade-in 1.5s;
+    animation: fade-in 4s;
   }
   @keyframes fade-in {
     from {
