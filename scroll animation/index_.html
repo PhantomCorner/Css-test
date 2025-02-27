@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1 style="height: 100vh">illo inventore</h1>
+
+    <section class="hidden">
+      <h2>illo inventore</h2>
+      <p>
+        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+        explicabo
+      </p>
+    </section>
+
+    <section class="hidden">
+      <h2>illo inventore</h2>
+      <p>
+        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+        explicabo
+      </p>
+    </section>
+
+    <section class="hidden">
+      <h2>illo inventore</h2>
+      <p>
+        illo inventore veritatis et quasi architecto beatae vitae dicta sunt,
+        explicabo
+      </p>
+    </section>
+  </body>
+  <script>
+    const obsever = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry, 123);
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    });
+    const hiddenElements = document.querySelectorAll("section");
+    console.log(hiddenElements);
+    hiddenElements.forEach((el) => {
+      obsever.observe(el);
+    });
+  </script>
+</html>
+<style>
+  body {
+    text-align: center;
+    background-color: gray;
+    padding: 0;
+    margin: 0;
+  }
+  section {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height: 100vh;
+  }
+
+  .show {
+    animation: fade-in 1.5s;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>
