@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="container">
+    <div class="scroll-watcher"></div>
+    <div class="tags">
+      <div class="tags-inner">
+        <span>content1</span>
+        <span>content2</span>
+        <span>content3</span>
+        <span>content4</span>
+        <span>content5</span>
+        <span>content1</span>
+        <span>content2</span>
+        <span>content3</span>
+        <span>content4</span>
+        <span>content5</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <img
+        class="img"
+        src="https://images.ctfassets.net/lzny33ho1g45/T5qqQQVznbZaNyxmHybDT/5f7580349045322d572a078262bee1b8/Best_URL_shortener.jpg"
+      />
+    </div>
+  </body>
+  <style>
+    .container {
+      height: 200vh;
+      background-color: gray;
+    }
+    .scroll-watcher {
+      height: 10px;
+      position: fixed;
+      top: 0;
+      z-index: 9999;
+      background-color: lime;
+      width: 100%;
+      scale: 0 1;
+      animation: scroll-watcher linear;
+      animation-timeline: scroll();
+    }
+    @keyframes scroll-watcher {
+      to {
+        scale: 1 1;
+      }
+    }
+    .content {
+      position: relative;
+      top: 50%;
+      img {
+        width: 100%;
+        animation: fade-in linear;
+        animation-timeline: view();
+      }
+    }
+    @keyframes fade-in {
+      from {
+        opacity: 0.2;
+        scale: 0.2;
+      }
+      to {
+        opacity: 1;
+        scale: 1;
+      }
+    }
+
+    .tags {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+    }
+
+    .tags-inner {
+      display: flex;
+      gap: 5em;
+      min-width: 100vw;
+      animation: tags-scrolling 10s linear infinite;
+    }
+
+    .tags-inner span {
+      border: 1px solid greenyellow;
+      padding: 1em;
+    }
+
+    @keyframes tags-scrolling {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</html>
