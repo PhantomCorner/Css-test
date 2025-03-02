@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky 延迟固定示例</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .spacer {
+        height: 200px; /* 初始占位，确保滚动足够距离后 sticky 生效 */
+        background-color: lightgray;
+        text-align: center;
+        line-height: 200px;
+      }
+      .header {
+        background-color: #3498db;
+        color: white;
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        font-size: 24px;
+        position: sticky;
+        top: 0; /* 当滚动到顶部时粘住 */
+        z-index: 1000;
+      }
+      .content {
+        height: 1500px;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="spacer">滚动 200px 后 Header 才会粘住</div>
+    <div class="header">我是 Sticky Header</div>
+
+    <div class="content">
+      <p>向下滚动看看效果...</p>
+      <p>更多内容...</p>
+      <p>更多内容...</p>
+      <p>更多内容...</p>
+      <p>更多内容...</p>
+    </div>
+  </body>
+</html>

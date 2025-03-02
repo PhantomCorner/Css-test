@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式瀑布流布局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .waterfall-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .waterfall-item {
+            position: absolute;
+            width: calc(25% - 20px);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            break-inside: avoid;
+        }
+        
+        .waterfall-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .waterfall-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .item-content {
+            padding: 15px;
+        }
+        
+        .item-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .item-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* 响应式设计 */
+        @media screen and (max-width: 1200px) {
+            .waterfall-item {
+                width: calc(33.33% - 20px);
+            }
+        }
+        
+        @media screen and (max-width: 900px) {
+            .waterfall-item {
+                width: calc(50% - 15px);
+            }
+        }
+        
+        @media screen and (max-width: 600px) {
+            .waterfall-item {
+                width: 100%;
+                position: relative;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="waterfall-container" id="waterfallContainer">
+            <!-- 卡片内容将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const items = [
+            { height: 200, title: "标题1", desc: "这是描述内容1" },
+            { height: 300, title: "标题2", desc: "这是描述内容2，内容比较多一些" },
+            { height: 250, title: "标题3", desc: "这是描述内容3" },
+            { height: 180, title: "标题4", desc: "这是描述内容4，这是一段比较长的描述，包含更多的文字信息" },
+            { height: 220, title: "标题5", desc: "这是描述内容5" },
+            { height: 260, title: "标题6", desc: "这是描述内容6" },
+            { height: 190, title: "标题7", desc: "这是描述内容7" },
+            { height: 280, title: "标题8", desc: "这是描述内容8，这里有更多的描述文字" },
+            { height: 210, title: "标题9", desc: "这是描述内容9" },
+            { height: 240, title: "标题10", desc: "这是描述内容10" },
+            { height: 270, title: "标题11", desc: "这是描述内容11" },
+            { height: 230, title: "标题12", desc: "这是描述内容12，内容相对较多" },
+        ];
+
+        // 创建瀑布流布局
+        class WaterfallLayout {
+            constructor(containerId, data) {
+                this.container = document.getElementById(containerId);
+                this.items = data;
+                this.columns = 4; // 默认列数
+                this.gap = 20; // 间隙
+                this.columnHeights = []; // 存储每列高度
+                
+                this.init();
+                
+                // 监听窗口大小变化，重新布局
+                window.addEventListener('resize', () => {
+                    this.updateColumns();
+                    this.resetLayout();
+                });
+            }
+            
+            // 初始化
+            init() {
+                this.createItems();
+                this.updateColumns();
+                this.resetLayout();
+            }
+            
+            // 根据窗口宽度更新列数
+            updateColumns() {
+                const containerWidth = this.container.clientWidth;
+                
+                if (containerWidth <= 600) {
+                    this.columns = 1;
+                } else if (containerWidth <= 900) {
+                    this.columns = 2;
+                } else if (containerWidth <= 1200) {
+                    this.columns = 3;
+                } else {
+                    this.columns = 4;
+                }
+                
+                // 重置列高度数组
+                this.columnHeights = Array(this.columns).fill(0);
+            }
+            
+            // 创建项目元素
+            createItems() {
+                this.container.innerHTML = '';
+                this.items.forEach((item, index) => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'waterfall-item';
+                    itemEl.innerHTML = `
+                        <div style="height: ${item.height}px; background-color: ${this.getRandomColor()}"></div>
+                        <div class="item-content">
+                            <div class="item-title">${item.title}</div>
+                            <div class="item-desc">${item.desc}</div>
+                        </div>
+                    `;
+                    this.container.appendChild(itemEl);
+                });
+            }
+            
+            // 重置布局
+            resetLayout() {
+                const items = this.container.querySelectorAll('.waterfall-item');
+                const itemWidth = (this.container.clientWidth - (this.columns - 1) * this.gap) / this.columns;
+                
+                // 如果是单列布局，使用普通流布局
+                if (this.columns === 1) {
+                    items.forEach(item => {
+                        item.style.position = 'relative';
+                        item.style.width = '100%';
+                        item.style.left = '0';
+                        item.style.top = '0';
+                        item.style.marginBottom = `${this.gap}px`;
+                    });
+                    
+                    // 设置容器高度
+                    let totalHeight = 0;
+                    items.forEach(item => {
+                        totalHeight += item.offsetHeight + this.gap;
+                    });
+                    this.container.style.height = `${totalHeight}px`;
+                    return;
+                }
+                
+                // 多列使用绝对定位
+                items.forEach((item, index) => {
+                    item.style.position = 'absolute';
+                    item.style.width = `${itemWidth}px`;
+                    item.style.marginBottom = '0';
+                    
+                    // 找出高度最小的列
+                    const minHeightIndex = this.columnHeights.indexOf(Math.min(...this.columnHeights));
+                    
+                    // 计算位置
+                    const left = minHeightIndex * (itemWidth + this.gap);
+                    const top = this.columnHeights[minHeightIndex];
+                    
+                    // 设置位置
+                    item.style.left = `${left}px`;
+                    item.style.top = `${top}px`;
+                    
+                    // 更新该列的高度
+                    this.columnHeights[minHeightIndex] += item.offsetHeight + this.gap;
+                });
+                
+                // 设置容器高度为最高列的高度
+                this.container.style.height = `${Math.max(...this.columnHeights)}px`;
+            }
+            
+            // 生成随机颜色
+            getRandomColor() {
+                const hue = Math.floor(Math.random() * 360);
+                return `hsl(${hue}, 70%, 80%)`;
+            }
+        }
+
+        // 页面加载完成后初始化瀑布流
+        document.addEventListener('DOMContentLoaded', () => {
+            const waterfallLayout = new WaterfallLayout('waterfallContainer', items);
+        });
+    </script>
+</body>
+</html>
