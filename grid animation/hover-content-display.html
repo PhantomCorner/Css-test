@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>悬停展示内容</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            position: relative;
+            width: calc(25% - 15px);
+            height: 200px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* 在小屏幕上调整卡片宽度 */
+        @media (max-width: 992px) {
+            .card {
+                width: calc(33.33% - 14px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 10px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .card {
+                width: 100%;
+            }
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.3s ease;
+        }
+        
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition-delay: 0.1s;
+        }
+        
+        /* 悬停效果 - 基本展示 */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card:hover .card-image {
+            filter: brightness(0.7);
+        }
+        
+        .card:hover .card-content {
+            transform: translateY(0);
+        }
+        
+        .card:hover .card-description {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 方案二：从上方滑入的悬停效果 */
+        .slide-top .card-content {
+            top: 0;
+            bottom: auto;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+            transform: translateY(-100%);
+        }
+        
+        /* 方案三：淡入淡出效果 */
+        .fade-in .card-content {
+            transform: translateY(0);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fade-in .card:hover .card-content {
+            opacity: 1;
+        }
+        
+        /* 方案四：缩放展示效果 */
+        .zoom .card-content {
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .zoom .card:hover .card-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        /* 悬停效果切换按钮 */
+        .effect-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .effect-button {
+            padding: 8px 15px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .effect-button:hover {
+            background-color: #357abD;
+        }
+        
+        .effect-button.active {
+            background-color: #2c6bae;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="effect-buttons">
+        <button class="effect-button active" data-effect="default">底部滑入</button>
+        <button class="effect-button" data-effect="slide-top">顶部滑入</button>
+        <button class="effect-button" data-effect="fade-in">淡入淡出</button>
+        <button class="effect-button" data-effect="zoom">缩放效果</button>
+    </div>
+    
+    <div class="container" id="cardContainer">
+        <!-- 卡片会通过JavaScript生成 -->
+    </div>
+
+    <script>
+        // 卡片数据
+        const cardData = [
+            {
+                title: "山水风景",
+                description: "青山绿水，风景如画，令人心旷神怡，流连忘返。",
+                imageColor: "#4A90E2"
+            },
+            {
+                title: "城市建筑",
+                description: "现代化都市景观，高楼林立，灯火辉煌。",
+                imageColor: "#50E3C2"
+            },
+            {
+                title: "海滩日落",
+                description: "金色的阳光洒在海面上，波光粼粼，美不胜收。",
+                imageColor: "#F5A623"
+            },
+            {
+                title: "森林探险",
+                description: "茂密的森林，神秘而充满活力，是自然的绿色宝库。",
+                imageColor: "#7ED321"
+            },
+            {
+                title: "雪山风光",
+                description: "白雪皑皑的山峰，壮观而神圣，令人敬畏自然的力量。",
+                imageColor: "#B8E986"
+            },
+            {
+                title: "花卉特写",
+                description: "绚丽多彩的花朵，娇艳欲滴，展现大自然的精巧设计。",
+                imageColor: "#D0021B"
+            },
+            {
+                title: "历史古迹",
+                description: "承载历史记忆的建筑，诉说着古老的故事和文明的痕迹。",
+                imageColor: "#9013FE"
+            },
+            {
+                title: "野生动物",
+                description: "栖息在自然环境中的动物，展现生命的活力与多样性。",
+                imageColor: "#F8E71C"
+            }
+        ];
+
+        // 生成卡片
+        function generateCards() {
+            const container = document.getElementById('cardContainer');
+            container.innerHTML = '';
+            
+            cardData.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                
+                // 使用颜色块代替图片（实际应用中可换成真实图片）
+                cardElement.innerHTML = `
+                    <div class="card-image" style="background-color: ${card.imageColor}"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">${card.title}</h3>
+                        <p class="card-description">${card.description}</p>
+                    </div>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        // 切换悬停效果
+        function setupEffectButtons() {
+            const buttons = document.querySelectorAll('.effect-button');
+            const container = document.getElementById('cardContainer');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有按钮的active类
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    // 给当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 移除容器上的所有效果类
+                    container.classList.remove('slide-top', 'fade-in', 'zoom');
+                    
+                    // 添加选中的效果类
+                    const effect = button.getAttribute('data-effect');
+                    if (effect !== 'default') {
+                        container.classList.add(effect);
+                    }
+                });
+            });
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+            generateCards();
+            setupEffectButtons();
+        });
+    </script>
+</body>
+</html>
