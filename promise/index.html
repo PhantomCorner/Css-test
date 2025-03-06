@@ -6,83 +6,175 @@
     <title>Document</title>
     <script>
       class myPromise {
-        static PENDING = "pending";
-        static FULFILLED = "fulfilled";
-        static REJECTED = "rejected";
-        constructor(func) {
-          this.status = myPromise.PENDING;
-          this.result = null;
-          this.resolveCallbacks = [];
-          this.rejectCallbacks = [];
+        constructor(executor) {
+          this.initValue();
+          this.initBind();
+          this.onFulfilledCallbacks = [];
+          this.onRejectedCallbacks = [];
           try {
-            func(this.resolve.bind(this), this.reject.bind(this));
-          } catch (error) {
-            this.reject(error);
+            executor(this.resolve, this.reject);
+          } catch (e) {
+            this.reject(e);
           }
         }
-        resolve(result) {
-          setTimeout(() => {
-            if (this.status === myPromise.PENDING) {
-              this.status = myPromise.FULFILLED;
-              this.result = result;
-              this.resolveCallbacks.forEach((callback) => {
-                callback(result);
-              });
-            }
-          });
+        //初始化 this 指向
+        initBind() {
+          this.resolve = this.resolve.bind(this);
+          this.reject = this.reject.bind(this);
         }
-        reject(result) {
-          setTimeout(() => {
-            if (this.status === myPromise.PENDING) {
-              this.status = myPromise.REJECTED;
-              this.result = result;
-              this.rejectCallbacks.forEach((callback) => {
-                callback(result);
-              });
-            }
-          });
+        //初始化值
+        initValue() {
+          //初始结果
+          this.result = null;
+          //初始状态
+          this.status = "pending";
+        }
+        //如果成功
+        resolve(value) {
+          //保证状态只会改变一次
+          if (this.status !== "pending") return;
+          //状态改变为成功
+          this.status = "fulfilled";
+          this.result = value;
+          while (this.onFulfilledCallbacks.length) {
+            this.onFulfilledCallbacks.shift()(this.result);
+          }
+        }
+        //如果失败
+        reject(reason) {
+          if (this.status !== "pending") return;
+          this.status = "rejected";
+          this.result = reason;
+          while (this.onRejectedCallbacks.length) {
+            this.onRejectedCallbacks.shift()(this.result);
+          }
         }
         then(onFulfilled, onRejected) {
-          onFulfilled =
-            typeof onFulfilled === "function" ? onFulfilled : () => {};
-          onRejected = typeof onRejected === "function" ? onRejected : () => {};
-          if (this.status === myPromise.PENDING) {
-            this.resolveCallbacks.push(onFulfilled);
-            this.rejectCallbacks.push(onRejected);
+          //确认收到的参数是函数
+          if (typeof onFulfilled === "function") {
+            onFulfilled = onFulfilled;
+          } else {
+            onFulfilled = function (val) {
+              return val;
+            };
           }
-          if (this.status === myPromise.FULFILLED) {
-            setTimeout(() => {
-              onFulfilled(this.result);
-            });
-          } else if (this.status === myPromise.REJECTED) {
-            setTimeout(() => {
-              onRejected(this.result);
-            });
+          if (typeof onRejected === "function") {
+            onRejected = onRejected;
+          } else {
+            onRejected = function (reason) {
+              throw reason;
+            };
           }
-          return this;
+          var thenPromise = new myPromise((resolve, reject) => {
+            const resolvePromise = (cb) => {
+              setTimeout(() => {
+                try {
+                  const x = cb(this.result);
+                  if (x === thenPromise) {
+                    // 不能返回自身哦
+                    throw new Error("不能返回自身。。。");
+                  }
+                  if (x instanceof myPromise) {
+                    // 如果返回值是Promise
+                    // 如果返回值是promise对象，返回值为成功，新promise就是成功
+                    // 如果返回值是promise对象，返回值为失败，新promise就是失败
+                    // 谁知道返回的promise是失败成功？只有then知道
+                    x.then(resolve, reject);
+                  } else {
+                    // 非Promise就直接成功
+                    resolve(x);
+                  }
+                } catch (err) {
+                  // 处理报错
+                  reject(err);
+                  throw new Error(err);
+                }
+              });
+            };
+
+            if (this.status === "fulfilled") {
+              // 如果当前为成功状态，执行第一个回调
+              resolvePromise(onFulfilled);
+            } else if (this.status === "rejected") {
+              // 如果当前为失败状态，执行第二个回调
+              resolvePromise(onRejected);
+            } else if (this.status === "pending") {
+              // 如果状态为待定状态，暂时保存两个回调
+              // 如果状态为待定状态，暂时保存两个回调
+              this.onFulfilledCallbacks.push(
+                resolvePromise.bind(this, onFulfilled)
+              );
+              this.onRejectedCallbacks.push(
+                resolvePromise.bind(this, onRejected)
+              );
+            }
+          });
+
+          // 返回这个包装的Promise
+          return thenPromise;
         }
       }
-      console.log(1);
-      let myPromise1 = new myPromise((resolve, reject) => {
-        console.log("inside promise");
 
-        setTimeout(() => {
-          console.log(myPromise1.status);
-          resolve("this is the result");
-          console.log(myPromise1.status);
-          console.log("in timeout");
-        });
-      });
-      myPromise1
-        .then((result) => {
-          console.log(result);
-        })
-        .then((res) => {
-          console.log("after then");
-        })
-        .then(() => {
-          console.log("after then 2");
-        });
+      // let myPromise1 = new myPromise((resolve, reject) => {
+      //   resolve("success");
+      //   // reject("error");
+      // });
+      // myPromise1.then(
+      //   (res) => {
+      //     console.log(res);
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   }
+      // );
+
+      // console.log("before promise");
+      // const test2 = new myPromise((resolve, reject) => {
+      //   console.log("in promise");
+      //   setTimeout(() => {
+      //     // resolve("成功"); // 1秒后输出 成功
+      //     console.log("in timeout");
+      //     reject("error");
+      //   }, 1000);
+      // }).then(
+      //   (res) => console.log(res),
+      //   (err) => console.log(err)
+      // );
+      // console.log("after promise");
+
+      // const test3 = new myPromise((resolve, reject) => {
+      //   resolve(100); // 输出 状态：成功 值： 200
+      //   // reject(100) // 输出 状态：成功 值：300
+      // })
+      //   .then(
+      //     (res) => 2 * res,
+      //     (err) => 3 * err
+      //   )
+      //   .then(
+      //     (res) => console.log("成功", res),
+      //     (err) => console.log("失败", err)
+      //   );
+
+      // const test4 = new Promise((resolve, reject) => {
+      //   resolve(100); // 输出 状态：失败 值：200
+      //   // reject(100) // 输出 状态：成功 值：300
+      // })
+      //   .then(
+      //     (res) => new myPromise((resolve, reject) => reject(2 * res)),
+      //     (err) => new myPromise((resolve, reject) => resolve(3 * err))
+      //   )
+      //   .then(
+      //     (res) => console.log("成功", res),
+      //     (err) => console.log("失败", err)
+      //   );
+
+      const test5 = new myPromise((resolve, reject) => {
+        resolve(1);
+      }).then(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      );
+
       console.log(2);
     </script>
   </head>
