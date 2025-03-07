@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" />
+    <button class="button_1">btn1</button>
+    <button class="button_2">btn2</button>
+    <p></p>
+    <script>
+      const input = document.querySelector("input"),
+        button_1 = document.querySelector(".button_1"),
+        button_2 = document.querySelector(".button_2"),
+        p = document.querySelector("p");
+      class Content {
+        constructor(text, color) {
+          this.text = text;
+          this.color = color;
+        }
+        static welcome() {
+          p.innerHTML = "welcome";
+        }
+        show() {
+          p.innerHTML = this.text + " " + input.value;
+          p.style.color = this.color;
+        }
+        set extra(val) {
+          this.value = val;
+          p.innerHTML += " " + this.value;
+        }
+        get extra() {
+          return "The extra content is " + this.value;
+        }
+      }
+      class Content2 extends Content {
+        constructor(text, color, fontSize) {
+          super(text, color);
+          this.fontSize = fontSize;
+        }
+        show() {
+          p.innerHTML += " " + this.text;
+          p.style.color = this.color;
+          p.style.fontSize = this.fontSize;
+        }
+      }
+      button_1.addEventListener("click", () => {
+        const content = new Content("yes", "green");
+        content.show();
+        content.extra = "extra content";
+        console.log(content.extra);
+      });
+      button_2.addEventListener("click", () => {
+        const content2 = new Content2("no", "red", "30px");
+        content2.show();
+      });
+      p.addEventListener("click", Content.welcome);
+    </script>
+  </body>
+</html>
