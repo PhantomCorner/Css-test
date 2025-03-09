@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi
+      similique ea a, doloribus perspiciatis mollitia fugiat deserunt aliquam
+      tempora quidem sed aspernatur! Ea nihil iure tenetur repellat, ducimus
+      dolorum.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi
+      similique ea a, doloribus perspiciatis mollitia fugiat deserunt aliquam
+      tempora quidem sed aspernatur! Ea nihil iure tenetur repellat, ducimus
+      dolorum.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi
+      similique ea a, doloribus perspiciatis mollitia fugiat deserunt aliquam
+      tempora quidem sed aspernatur! Ea nihil iure tenetur repellat, ducimus
+      dolorum.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi
+      similique ea a, doloribus perspiciatis mollitia fugiat deserunt aliquam
+      tempora quidem sed aspernatur! Ea nihil iure tenetur repellat, ducimus
+      dolorum.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi
+      similique ea a, doloribus perspiciatis mollitia fugiat deserunt aliquam
+      tempora quidem sed aspernatur! Ea nihil iure tenetur repellat, ducimus
+      dolorum.
+    </p>
+
+    <img
+      temp-src="https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      alt="pic1 "
+    />
+    <img
+      temp-src="https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      alt="pic 2"
+    />
+    <img
+      temp-src="https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      alt=" pic3"
+    />
+
+    <script>
+      const imgs = document.querySelectorAll("img");
+
+      const cb = function (entries) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            console.log(img.alt);
+            const data_src = img.getAttribute("temp-src");
+            img.removeAttribute("temp-src");
+            img.setAttribute("src", data_src);
+            obs.unobserve(img);
+          }
+        });
+      };
+      const obs = new IntersectionObserver(cb);
+      imgs.forEach((img) => {
+        obs.observe(img);
+      });
+      //   window.addEventListener("scroll", (e) => {
+      //     imgs.forEach((img) => {
+      //       obs.observe(img);
+      //         const toTop = img.getBoundingClientRect().top;
+      //         //   console.log(img.alt, "distance to top", toTop);
+      //         if (toTop < window.innerHeight) {
+      //           const data_src = img.getAttribute("src");
+      //           img.setAttribute("src", data_src);
+      //         }
+      //     });
+      //   });
+      const color = function () {
+        console.log("1");
+        let r = Math.floor(Math.random() * 256);
+        let g = Math.floor(Math.random() * 256);
+        let b = Math.floor(Math.random() * 256);
+        document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+      };
+      const throttle = function (func, delay) {
+        let timer = null;
+        return function (...args) {
+          if (!timer) {
+            timer = setTimeout(() => {
+              func.apply(this, args);
+              timer = null;
+            }, delay);
+          }
+        };
+      };
+      const debounce = function (func, delay) {
+        let timer = null;
+        return function (...args) {
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            func.apply(this, args);
+          }, delay);
+        };
+      };
+      window.addEventListener("resize", debounce(color, 2000));
+    </script>
+  </body>
+</html>
+<style>
+  p {
+    font-size: 20px;
+  }
+</style>
