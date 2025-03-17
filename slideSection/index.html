@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="compare">
+      <section class="before">I'm the left section</section>
+      <section class="after">I'm the right section</section>
+      <input type="range" id="range" step="0.1" />
+    </div>
+    <script>
+      range.oninput = () =>
+        document.body.style.setProperty("--pos", range.value + "%");
+    </script>
+  </body>
+</html>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  .compare {
+    display: grid;
+
+    > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  section {
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    height: 100dvh;
+  }
+
+  .before {
+    background-size: contain;
+    background-image: url(https://images.unsplash.com/photo-1741091750011-f0fb9b8400cc?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-color: #fff8f0;
+    color: #fff8f0;
+    mask: linear-gradient(to right, #000 0, var(--pos, 50%), transparent 0);
+  }
+
+  .after {
+    background-color: #122b1f;
+    background-size: contain;
+    background-image: url(https://images.unsplash.com/photo-1741290723109-e7f4222b27b7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    mask: linear-gradient(to right, transparent 0, var(--pos, 50%), #000 0);
+    color: #fff8f0;
+  }
+
+  input {
+    position: absolute;
+    height: 10px;
+    width: 100dvw;
+    z-index: 1;
+    top: 50%;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    background-image: url("https://banner2.cleanpng.com/20180419/cae/avfyuhnwu.webp");
+    inline-size: 4px;
+    width: 100px;
+    height: 100px;
+    /* block-size: 50px; */
+  }
+</style>

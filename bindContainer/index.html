@@ -48,23 +48,16 @@
               td.classList.remove("wrap");
             }
           }
-          // remove other wrap td
+          // get selected td index
           const index = Array.from(allTd).indexOf(this);
           const row = Math.floor(index / n);
           const col = index % n;
           console.log(index);
           // add wrap class but keep selected td current
           for (let i = 0; i < m; i++) {
-            if (i === row) {
-              continue;
-            }
-
             allTd[i * n + col].classList.add("wrap");
           }
           for (let i = 0; i < n; i++) {
-            if (i === col) {
-              continue;
-            }
             allTd[row * n + i].classList.add("wrap");
           }
           allTd[index].classList.remove("wrap");
@@ -78,10 +71,12 @@
 
 <style>
   body {
+    padding: 0;
+    margin: 0;
     background-color: gray;
   }
   #jsContainer {
-    width: 500px;
+    width: 100vw;
     height: 800px;
   }
   #jsLayout {
@@ -90,7 +85,7 @@
     border-collapse: collapse;
   }
   #jsLayout td {
-    width: 50px;
+    width: 3%;
     height: 50px;
     border: 1px solid black;
     text-align: center;
