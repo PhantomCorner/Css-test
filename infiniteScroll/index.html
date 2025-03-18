@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">
+      <!-- 初始内容 -->
+    </div>
+
+    <script>
+      const container = document.querySelector("#container");
+      let isLoading = false;
+      let observer;
+
+      function loadMoreItems() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            for (let i = 0; i < 10; i++) {
+              let p = document.createElement("p");
+              p.textContent = "testing";
+              container.appendChild(p);
+            }
+            resolve();
+          }, 500); // 模拟异步加载
+        });
+      }
+
+      async function observeLastItem() {
+        let allP = container.querySelectorAll("p");
+        if (allP.length === 0) return;
+
+        // 取消对之前的最后一个 <p> 的观察
+        if (observer) observer.disconnect();
+
+        // 观察新的最后一个 <p>
+        let lastP = allP[allP.length - 1];
+        observer = new IntersectionObserver(async (entries) => {
+          if (entries[0].isIntersecting && !isLoading) {
+            isLoading = true;
+            await loadMoreItems();
+            isLoading = false;
+            observeLastItem(); // 重新观察新加载的最后一个 <p>
+          }
+        });
+
+        observer.observe(lastP);
+      }
+
+      // 初始加载
+      loadMoreItems().then(() => observeLastItem());
+    </script>
+  </body>
+</html>
+<style>
+  p {
+    width: 200px;
+    height: 200px;
+  }
+</style>
